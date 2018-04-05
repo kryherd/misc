@@ -103,7 +103,7 @@ def dataclean(data):
     (89.49, 'B+'),
     (93.49, 'A-'),
     (96.49, 'A'),
-    (100, 'A+'),
+    (110, 'A+'),
 	]
 	grades.sort() # list must be sorted
 	# create function to assign letter grades
