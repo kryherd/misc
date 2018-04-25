@@ -50,6 +50,9 @@ def dataclean(data):
 	exam.name="exam"
 	clicker=df.filter(regex='Session')
 	clicker.name="clicker"
+	#Remove weeks 1 and 2 of clicker points
+	clicker.drop(list(clicker.filter(regex = 'Session 2')), axis = 1, inplace = True)
+	clicker.drop(list(clicker.filter(regex = 'Session 1')), axis = 1, inplace = True)
 	# indicate how many points are in each type of assignment
 	totals={"quiz": 5, "video": 5, "lc": 5, "exam": 100, "clicker": 1}
 	# function for calculating section averages for assignments that have 2 dropped
@@ -64,6 +67,18 @@ def dataclean(data):
 		sec[avg_name] = sec.mean(axis=1)
 		# create percentage
 		sec[pct_name] = sec[avg_name]/totals[str(sec.name)]*100
+	# function for calculating section averages for assignments that have 3 dropped
+	def avg_pct_three(sec):
+		sec.fillna(0, inplace=True) # replaces NaNs with zeroes, for assignments not completed
+		avg_name = str(sec.name) + " Average"
+		pct_name = str(sec.name) + " Percent"
+		# replace exactly two lowest values with NaN; drops two lowest assignments
+		for row in sec.iterrows():
+			row[1].replace(row[1].sort_values()[0:3],np.nan, inplace=True)
+		# create average; NaNs are ignored	
+		sec[avg_name] = sec.mean(axis=1)
+		# create percentage
+		sec[pct_name] = sec[avg_name]/totals[str(sec.name)]*100
 	# calculate section averages with no dropped assignments (i.e., exams)
 	def avg_pct_exam(sec):
 		avg_name = str(sec.name) + " Average"
@@ -71,9 +86,11 @@ def dataclean(data):
 		sec[avg_name] = sec.mean(axis=1)
 		sec[pct_name] = sec[avg_name]/totals[str(sec.name)]*100
 	# run function on 4 sections
-	dflist = [quiz, video, lc, clicker]
+	dflist = [quiz, video, lc]
 	for i in dflist:
 		avg_pct(i)
+	#run function for clickers
+	avg_pct_three(clicker)
 	# run function for exams
 	avg_pct_exam(exam)
 	 # add username info
@@ -102,8 +119,7 @@ def dataclean(data):
     (86.49, 'B'),
     (89.49, 'B+'),
     (93.49, 'A-'),
-    (96.49, 'A'),
-    (110, 'A+'),
+    (110, 'A'),
 	]
 	grades.sort() # list must be sorted
 	# create function to assign letter grades
