@@ -1,4 +1,4 @@
-##SQL Zoo 
+# SQL Zoo 
 
 My own solutions to some of the exercises on SQL Zoo.
 
