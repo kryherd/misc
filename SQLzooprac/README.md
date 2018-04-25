@@ -8,3 +8,4 @@ A software company has been successful in selling its products to a number of cu
 
 * [Easy Solutions](./helpdesk_easy.sql)
 * [Medium Solutions](./helpdesk_medium.sql)
+* [Hard Solutions](./helpdesk_hard.sql)
