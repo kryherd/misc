@@ -3,7 +3,25 @@
 Show the manager and number of calls received for each hour of the day on 2017-08-12
 */
 
-
+SELECT Shift.Manager, 
+		LEFT(Issue.Call_date, 13) AS Hr, 
+		COUNT(Call_ref) AS cc
+FROM Issue 
+	INNER JOIN Shift
+			ON LEFT(Issue.Call_date, 10) = Shift.Shift_date 
+			AND Shift.Shift_type = (CASE
+										WHEN SUBSTRING(Issue.Call_date, 12, 2) BETWEEN 8 AND 13 THEN 'Early'
+										WHEN SUBSTRING(Issue.Call_date, 12, 2) BETWEEN 14 AND 19 THEN 'Late' 
+										ELSE '0' 
+									END) 
+WHERE LEFT(Issue.Call_date, 10) = '2017-08-12'
+GROUP BY LEFT(Issue.Call_date, 13), 
+		CASE
+			WHEN SUBSTRING(Issue.Call_date, 12, 2) BETWEEN 8 AND 13 THEN 'Early'
+			WHEN SUBSTRING(Issue.Call_date, 12, 2) BETWEEN 14 AND 19 THEN 'Late' 
+			ELSE '0' 
+		END, 
+		Shift.Manager
 
 --#12
 /*
@@ -20,6 +38,28 @@ Annoying customers. Customers who call in the last five minutes of a shift are a
 Find the most active customer who has never been annoying.
 */
 
+SELECT Customer.Company_name, 
+		COUNT(Call_ref) AS abna
+FROM Issue 
+	JOIN Caller 
+		ON Issue.Caller_id = Caller.Caller_id 
+	JOIN Customer 
+		ON Caller.Company_ref = Customer.Company_ref
+WHERE Customer.Company_name NOT IN (SELECT Customer.Company_name 
+									FROM Issue 
+										JOIN Caller 
+											ON Issue.Caller_id = Caller.Caller_id 
+										JOIN Customer 
+											ON Caller.Company_ref = Customer.Company_ref 
+									WHERE CASE 
+											WHEN ((SUBSTRING(Call_date, 12, 2) = 13 OR SUBSTRING(Call_date, 12, 2) = 19) AND SUBSTRING(Call_date, 15, 2) >= 55) THEN 'Annoying'
+											ELSE 'Not Annoying'
+										   END = 'Annoying')
+GROUP BY Customer.Company_name
+ORDER BY Count(Call_ref) DESC
+LIMIT 1
+
+
 
 
 --#14
@@ -28,8 +68,29 @@ Maximal usage.
 If every caller registered with a customer makes a call in one day then that customer has "maximal usage" of the service. 
 List the maximal customers for 2017-08-13.
 */
-
-
+SELECT Customer.Company_name, 
+		COUNT(Caller.Caller_id) as caller_count, 
+		a.issue_count 
+FROM Caller 
+	JOIN Customer 
+		ON Caller.Company_ref = Customer.Company_ref
+	JOIN (SELECT
+			 COUNT(Caller.Caller_id) as issue_count, 
+			 							Customer.Company_name
+		  FROM Caller 
+		  	  JOIN Customer 
+		  	  	ON Caller.Company_ref = Customer.Company_ref
+		  WHERE Caller.Caller_id IN (SELECT DISTINCT Issue.Caller_id 
+		  							 FROM Issue 
+		  							 	  JOIN Caller 
+		  							 	  	 ON Issue.Caller_id = Caller.Caller_id 
+		  							 	  JOIN Customer 
+		  							 	     ON Caller.Company_ref = Customer.Company_ref
+									  WHERE LEFT(Issue.Call_date, 10) = '2017-08-13')
+		  GROUP BY Customer.Company_name) a
+		ON a.Company_name = Customer.Company_name
+GROUP BY Customer.Company_name, a.issue_count
+HAVING COUNT(Caller.Caller_id) = a.issue_count
 
 --#15
 /*
