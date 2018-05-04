@@ -52,7 +52,7 @@ def dataclean(data):
 	clicker.name="clicker"
 	#Remove weeks 1 and 2 of clicker points
 	clicker.drop(list(clicker.filter(regex = 'Session 2')), axis = 1, inplace = True)
-	clicker.drop(list(clicker.filter(regex = 'Session 1')), axis = 1, inplace = True)
+	clicker.drop(list(clicker.filter(regex = 'Session 1 ')), axis = 1, inplace = True)
 	# indicate how many points are in each type of assignment
 	totals={"quiz": 5, "video": 5, "lc": 5, "exam": 100, "clicker": 1}
 	# function for calculating section averages for assignments that have 2 dropped
