@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-PsychoPy experiment by Kayleigh Ryherd, 10/23/2018
+PsychoPy experiment by Kayleigh Ryherd, last updated 11/19/2018
 """
 
 ### IMPORTANT:
@@ -19,7 +19,7 @@ import random
 import pandas as pd
 
 #set parent directory
-parent_dir = "./"
+parent_dir = ".\\"
 
 #get some startup information from the user
 info = {'ID Number':'', 'Order':''}
@@ -31,7 +31,7 @@ if not dlg.OK:
 #set log prefixes
 prefix = 'sub-%s_order%s' % (info['ID Number'], info['Order'])
 #logging data 
-errorLog=logging.LogFile(parent_dir + "results/" + prefix + "_errorlog.log", level=logging.DATA, filemode='w')
+errorLog=logging.LogFile(parent_dir + "results\\" + prefix + "_errorlog.log", level=logging.DATA, filemode='w')
 
 def check_exit():
 #abort if esc was pressed
@@ -45,7 +45,7 @@ logging.setDefaultClock(globalClock)
 
 #info about the screen
 ## change to match your resolution
-win = visual.Window(size = [1440,900],
+win = visual.Window(size = [1280,800],
                     color = "white",
                     fullscr = True, allowGUI=False,
                     units = "pix")
@@ -55,11 +55,19 @@ data = np.hstack(("Subject", "Block", "Trial", "StimType", "Stimulus", "KEY", "R
 
 # select block
 if info['Order'] == '1':
-    block = {1: "face", 2: "pl"}
+    block = {1: "face", 2: "pl", 3: "pix"}
 elif info['Order'] == '2':
-    block = {1: "pl", 2: "face"}
+    block = {1: "face", 2: "pix", 3: "pl"}
+elif info['Order'] == '3':
+    block = {1: "pl", 2: "face", 3: "pix"}
+elif info['Order'] == '4':
+    block = {1: "pl", 2: "pix", 3: "face"}
+elif info['Order'] == '5':
+    block = {1: "pix", 2: "face", 3: "pl"}
+elif info['Order'] == '6':
+    block = {1: "pix", 2: "pl", 3: "face"}
 else:
-    print "\n-----------\nInvalid Order Selected. Please Try Again.\n-----------\n"
+    print("\n-----------\nInvalid Order Selected. Please Try Again.\n-----------\n")
     win.close()
     core.quit()
 
@@ -106,13 +114,13 @@ FinalThankYou_txt = visual.TextStim(win, text = "Thank you!",
                         autoLog=True)
 
 # set up A sound
-ba_redu = sound.SoundPygame(parent_dir + "audio/ba_redu_audio.wav")
+ba_redu = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_redu_audio.wav")
 
 ##### RUN EXPERIMENT
 # time when experiment started
 t0 = globalClock.getTime()
 # run through the blocks in order
-for i in range(1, 3):
+for i in range(1, 4):
 	# for the first block, show the instructions
     if i == 1:
         instruct_txt.draw()
@@ -126,7 +134,7 @@ for i in range(1, 3):
         win.flip()
         keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
     # for the second block, show the second block instructions    
-    if i == 2:
+    if i > 1:
         diff_txt.draw()
         win.flip()
         keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
@@ -142,7 +150,7 @@ for i in range(1, 3):
     for index in range(len(TRIAL_LIST_RAND)):
         check_exit()
         # set up video stimulus
-        mov = visual.MovieStim3(win, parent_dir + 'video/' + TRIAL_LIST_RAND[index]['Stimulus'],
+        mov = visual.MovieStim3(win, parent_dir + 'video\\' + TRIAL_LIST_RAND[index]['Stimulus'],
                         size = (640, 480),
                         flipVert = False,
                         flipHoriz = False,
@@ -172,7 +180,7 @@ for i in range(1, 3):
                 RESP,
                 "%.3f" %RT))))
 # save results document
-np.savetxt(parent_dir + "results/" + "AVInt_PointLight_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+np.savetxt(parent_dir + "results\\" + "AVInt_PointLight_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
 
 #display a Thank You message
 FinalThankYou_txt.draw()
