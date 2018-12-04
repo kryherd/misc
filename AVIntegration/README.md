@@ -24,7 +24,7 @@ This folder contains the point-light PsychoPy version of the AV Integration expe
 
 ![Click on the coder view](./coder.png)
 
-7. A dialog box should pop up (like the one below). Enter the participant number under ID Number. 
+7. A dialog box should pop up. Enter the participant number under ID Number. 
 
 8. From there the experiment should run pretty smoothly. Read through the instructions with the participant.
 
