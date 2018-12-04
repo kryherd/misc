@@ -1,0 +1,13 @@
+Trial,Stimulus,StimType,StimCategory
+1,ba_redu_face.avi,oddball,AV
+2,ba_redu_face.avi,oddball,AV
+3,ba_base_face.avi,standard,AV
+4,ba_base_face.avi,standard,AV
+5,ba_redu_pl.avi,oddball,PL
+6,ba_redu_pl.avi,oddball,PL
+7,ba_base_pl.avi,standard,PL
+8,ba_base_pl.avi,standard,PL
+9,ba_redu_pixel.avi,oddball,PIX
+10,ba_redu_pixel.avi,oddball,PIX
+11,ba_base_pixel.avi,standard,PIX
+12,ba_base_pixel.avi,standard,PIX
