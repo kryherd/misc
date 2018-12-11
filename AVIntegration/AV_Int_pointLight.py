@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-PsychoPy experiment by Kayleigh Ryherd, last updated 12/4/2018
+PsychoPy experiment by Kayleigh Ryherd, last updated 12/11/2018
 """
 
 ### IMPORTANT:
@@ -22,7 +22,7 @@ import pandas as pd
 parent_dir = ".\\"
 
 #get some startup information from the user
-info = {'ID Number':''}
+info = {'ID Number':'', 'Order':''}
 dlg = gui.DlgFromDict(info, title='AV Int')
 if not dlg.OK:
     core.quit()
@@ -33,25 +33,53 @@ prefix = 'sub-%s' % (info['ID Number'])
 #logging data 
 errorLog=logging.LogFile(parent_dir + "results\\" + prefix + "_errorlog.log", level=logging.DATA, filemode='w')
 
-def check_exit():
-#abort if esc was pressed
-    if event.getKeys('escape'):
+# function for getting key presses
+def get_keypress():
+    keys = event.getKeys(timeStamped=globalClock)
+    # if escape was pressed...
+    if keys and keys[0][0] == 'escape':
+        # save the data in a modified format named "early_quit"
+        np.savetxt(parent_dir + "results\\" + "early_quit_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+        # and exit
         win.close()
         core.quit()
+    # otherwise, return the keypress object
+    elif keys:
+        return keys
+    # if no keys were pressed, return None
+    else:
+        return None
 
 #create clock
 globalClock = core.Clock()
 logging.setDefaultClock(globalClock)
 
 #info about the screen
-## change to match your resolution
+# change to match your resolution
 win = visual.Window(size = [1280,800],
                     color = "black",
                     fullscr = True, allowGUI=False,
                     units = "pix")
 
-# header for data log
-data = np.hstack(("Subject", "Trial", "StimType", "StimCategory","Stimulus", "ACC","KEY", "RT"))
+############################# 2AFC SECTION
+
+# select block
+if info['Order'] == '1':
+    block = {1: "face", 2: "pl", 3: "pix"}
+elif info['Order'] == '2':
+    block = {1: "face", 2: "pix", 3: "pl"}
+elif info['Order'] == '3':
+    block = {1: "pl", 2: "face", 3: "pix"}
+elif info['Order'] == '4':
+    block = {1: "pl", 2: "pix", 3: "face"}
+elif info['Order'] == '5':
+    block = {1: "pix", 2: "face", 3: "pl"}
+elif info['Order'] == '6':
+    block = {1: "pix", 2: "pl", 3: "face"}
+else:
+    print("\n-----------\nInvalid Order Selected. Please Try Again.\n-----------\n")
+    win.close()
+    core.quit()
 
 
 # set up text windows
@@ -86,7 +114,7 @@ instruct_txt3 = visual.TextStim(win, text = "Every time you hear A, press F.\n\n
                         wrapWidth= 1400,
                         autoLog=True)
 
-goodness = visual.TextStim(win, text = "Think about the BAs you heard.\nPlease press the key corresponding to how\nstrong and clear the B sounds in them were overall.\n\n1 - strong B sound\n\n2- medium B sound\n\n3 - weak B sound\n\n4 - did not hear any BAs " ,
+diff_txt = visual.TextStim(win, text = "Let's try it again with some different videos.\n\nRemember, every time you hear A, press F\nand every time you hear BA, press J. \n \n \nPress SPACE to begin." ,
                         pos = [0.0,0.0],
                         color = "white",
                         height = 32,
@@ -95,6 +123,17 @@ goodness = visual.TextStim(win, text = "Think about the BAs you heard.\nPlease p
                         font = "Arial",
                         wrapWidth= 1400,
                         autoLog=True)
+
+keypress = visual.TextStim(win,
+                            text = "F - A             J - BA",
+                            pos = [0.0,-300],
+                            color = "white", 
+                            height = 32, 
+                            alignHoriz='center', 
+                            alignVert='center',
+                            font = "Arial",
+                            autoLog=True,
+                            wrapWidth= 1200)
 
 FinalThankYou_txt = visual.TextStim(win, text = "Thank you!",
                         pos = [0.0,0.0],
@@ -105,33 +144,146 @@ FinalThankYou_txt = visual.TextStim(win, text = "Thank you!",
                         font = "Arial",
                         autoLog=True)
 
-# set up A sound
+# set up example sounds
 ba_redu = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_redu_audio.wav")
 ba_base = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_base_audio.wav")
+
+
+# header for data log
+data = np.hstack(("Subject", "Block", "Trial", "StimType", "StimCategory","Stimulus", "ACC","RESP","Sound","RT"))
+# dictionary for keypresses
+sounds = {"f": "A", "j": "BA"}
+
 
 ##### RUN EXPERIMENT
 # time when experiment started
 t0 = globalClock.getTime()
-## show instructions
-instruct_txt.draw()
+# run through the blocks in order
+for i in range(1, 4):
+    # for the first block, show the instructions
+    if i == 1:
+        instruct_txt.draw()
+        win.flip()
+        # when space is pressed...
+        keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
+        # ... play the A sound
+        ba_redu.play()
+        core.wait(2)
+        instruct_txt2.draw()
+        win.flip()
+        # when space is pressed...
+        keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
+        # ... play the BA sound
+        ba_base.play()
+        core.wait(2)
+        instruct_txt3.draw()
+        win.flip()
+        keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
+    # for the other blocks, show the other block instructions  
+    if i > 1:
+        diff_txt.draw()
+        win.flip()
+        keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
+    blockName = block[i]
+    # load in trials and randomize them
+    TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\%s_stim.csv" % (blockName))
+    totalTrials = len(TRIAL_LIST)
+    TRIAL_LIST_RAND = TRIAL_LIST
+    random.shuffle(TRIAL_LIST_RAND)
+    # set trial counter
+    Trial = 0
+    # run through trials
+    for index in range(len(TRIAL_LIST_RAND)):
+        # set up video stimulus
+        mov = visual.MovieStim3(win, parent_dir + 'video\\' + TRIAL_LIST_RAND[index]['Stimulus'],
+                        size = (640, 480),
+                        flipVert = False,
+                        flipHoriz = False,
+                        loop = False)
+        # timestamp right as movie is started
+        t1 = globalClock.getTime()
+        while mov.status != visual.FINISHED:
+            mov.draw()
+            keypress.draw()
+            win.flip()
+        # wait for a half a second
+        core.wait(0.5)
+        KEY = get_keypress()
+        # if a key was pressed
+        if KEY != None:
+            RESP = KEY[0][0] # save key that was pressed
+            SOUND = sounds[RESP] # map key to sound
+            RT = KEY[0][1] - t1 # calculate RT
+        # if nothing was pressed
+        elif KEY == None:
+            RESP = 'none'
+            SOUND = 'none'
+            RT = 999
+        # set up and determine accuracy
+        if TRIAL_LIST_RAND[index]['StimType'] == 'oddball':
+            cor_resp = 'f'
+        elif TRIAL_LIST_RAND[index]['StimType'] == 'standard':
+            cor_resp = 'j'
+        if cor_resp == RESP:
+            ACC = 1
+        else:
+            ACC = 0
+        Trial = Trial + 1
+        # add trial-level data to numpy array
+        data = np.vstack((data, np.hstack((info['ID Number'],
+                i,
+                Trial,
+                TRIAL_LIST_RAND[index]['StimType'],
+                TRIAL_LIST_RAND[index]['StimCategory'],
+                TRIAL_LIST_RAND[index]['Stimulus'], 
+                ACC,
+                RESP,
+                SOUND,
+                "%.3f" %RT))))
+
+# save results document
+np.savetxt(parent_dir + "results\\" + "AVInt_2AFC_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+
+############################# GOODNESS RATINGS SECTION
+
+# set up text displays
+goodness_txt = visual.TextStim(win, text = "Now you will hear and see many sounds and pictures.\n\nAfter each sound, judge how strong the 'b' was.\n\nFor a STRONG 'b', press 1.\n\nFor a MEDIUM 'b', press 2.\n\nFor a WEAK 'b', press 3.\n\nIf you DO NOT hear a 'b', press 4.\n\nPress SPACE to continue." ,
+                        pos = [0.0,0.0],
+                        color = "white",
+                        height = 32,
+                        alignHoriz='center',
+                        alignVert='center',
+                        font = "Arial",
+                        wrapWidth= 1400,
+                        autoLog=True)
+
+keypress_good = visual.TextStim(win,
+                            text = "1 - Strong     2 - Medium    3 - Weak    4 - None",
+                            pos = [0.0,-300],
+                            color = "white", 
+                            height = 32, 
+                            alignHoriz='center', 
+                            alignVert='center',
+                            font = "Arial",
+                            autoLog=True,
+                            wrapWidth= 1200)
+
+# set up data structure
+data = np.hstack(("Subject", "Trial", "StimType", "StimCategory","Stimulus","KEY", "Rating", "RT"))
+# set up ratings dictionary
+ratings = {"1": "Strong", "2": "Medium", "3": "Weak", "4": "None"}
+
+# start clock
+t0 = globalClock.getTime()
+
+#show instructions
+goodness_txt.draw()
 win.flip()
-# when space is pressed...
+# when space is pressed, start experiment
 keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
-# ... play the A sound
-ba_redu.play()
-core.wait(2)
-instruct_txt2.draw()
-win.flip()
-# when space is pressed...
-keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
-# ... play the BA sound
-ba_base.play()
-core.wait(2)
-instruct_txt3.draw()
-win.flip()
-keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
+
 # load in trials and randomize them
-TRIAL_LIST = psychopy.data.importConditions(fileName = "twoAFC_stim_clip.csv")
+TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\goodness_stim.csv")
 totalTrials = len(TRIAL_LIST)
 TRIAL_LIST_RAND = TRIAL_LIST
 random.shuffle(TRIAL_LIST_RAND)
@@ -139,7 +291,6 @@ random.shuffle(TRIAL_LIST_RAND)
 Trial = 0
 # run through trials
 for index in range(len(TRIAL_LIST_RAND)):
-    check_exit()
     # set up video stimulus
     mov = visual.MovieStim3(win, parent_dir + 'video\\' + TRIAL_LIST_RAND[index]['Stimulus'],
                     size = (640, 480),
@@ -150,26 +301,20 @@ for index in range(len(TRIAL_LIST_RAND)):
     t1 = globalClock.getTime()
     while mov.status != visual.FINISHED:
         mov.draw()
+        keypress_good.draw()
         win.flip()
     core.wait(0.5)
-    KEY = event.getKeys(timeStamped=globalClock)
+    KEY = get_keypress()
     # if a key was pressed
-    if KEY != []:
+    if KEY != None:
         RESP = KEY[0][0] # save key that was pressed
-        RT = KEY[0][1] - t1
+        RAT = ratings[RESP] # map key to goodness rating
+        RT = KEY[0][1] - t1 # calculate RT
     # if nothing was pressed
-    elif KEY == []:
+    elif KEY == None:
         RESP = 'none'
-        RT = 999
-    # set up and determine accuracy
-    if TRIAL_LIST_RAND[index]['StimType'] == 'oddball':
-        cor_resp = 'f'
-    elif TRIAL_LIST_RAND[index]['StimType'] == 'standard':
-        cor_resp = 'j'
-    if cor_resp == RESP:
-        ACC = 1
-    else:
-        ACC = 0
+        RAT = 'none'
+        RT = 999    
     Trial = Trial + 1
     # add trial-level data
     data = np.vstack((data, np.hstack((info['ID Number'],
@@ -177,20 +322,12 @@ for index in range(len(TRIAL_LIST_RAND)):
             TRIAL_LIST_RAND[index]['StimType'],
             TRIAL_LIST_RAND[index]['StimCategory'],
             TRIAL_LIST_RAND[index]['Stimulus'], 
-            ACC,
             RESP,
+            RAT,
             "%.3f" %RT))))
+
 # save results document
-np.savetxt(parent_dir + "results\\" + "AVInt_PointLight_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
-
-### Goodness judgment
-goodness.draw()
-win.flip()
-goodKey = event.waitKeys(keyList=['1','2','3','4'])
-
-with open("results\\gj.txt","a") as gj:
-    gj.write(info['ID Number'] + "\t" + goodKey[0] + "\n")
-
+np.savetxt(parent_dir + "results\\" + "AVInt_goodness_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
 
 #display a Thank You message
 FinalThankYou_txt.draw()

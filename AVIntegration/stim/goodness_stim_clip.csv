@@ -7,7 +7,7 @@ Trial,Stimulus,StimType,StimCategory
 6,ba_redu_pl.avi,oddball,PL
 7,ba_base_pl.avi,standard,PL
 8,ba_base_pl.avi,standard,PL
-9,ba_redu_pixel.avi,oddball,PIX
-10,ba_redu_pixel.avi,oddball,PIX
-11,ba_base_pixel.avi,standard,PIX
-12,ba_base_pixel.avi,standard,PIX
+9,ba_redu_pix.avi,oddball,PIX
+10,ba_redu_pix.avi,oddball,PIX
+11,ba_base_pix.avi,standard,PIX
+12,ba_base_pix.avi,standard,PIX

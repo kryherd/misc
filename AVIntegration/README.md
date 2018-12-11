@@ -1,16 +1,34 @@
 # Audio-Visual Integration
 
-This folder contains the point-light PsychoPy version of the AV Integration experiment (for more info on the paradigm, see [Irwin et al., (2016)](https://asa.scitation.org/doi/abs/10.1121/1.4971110) and [Irwin et al., (2018)](http://booksandjournals.brillonline.com/content/journals/10.1163/22134808-00002580).
+This folder contains the behavioral PsychoPy version of the AV Integration experiment (for more info on the paradigm, see [Irwin et al., (2016)](https://asa.scitation.org/doi/abs/10.1121/1.4971110) and [Irwin et al., (2018)](http://booksandjournals.brillonline.com/content/journals/10.1163/22134808-00002580).
 
 ### Contents:
 * `AV_Int_pointLight.py` - this is the PsychoPy experiment.
-* `twoAFC_stim.csv` - stim listing
-* `twoAFC_stim_clip.csv` - clipped version of the stim to help with testing the experiment
-* Audio files
-* Video files
-* Results folder (including `gj.txt`)
+* `audio` - contains audio files
+* `video` - contains video files
+* `stim` - contains stimulus files. If you want to change which videos appear, look at the files in here.
 
-**Note:** If you want to test the experiment, change the `"twoAFC_stim.csv"` in line 134 to `"twoAFC_stim_clip.csv"`. This will use the shorter stimuli lists, making testing a lot easier.
+**Note:** If you want to test the experiment, change the `"%s_stim.csv"` in line 189 to `"%s_stim_clip.csv"` and `goodness_stim.csv` to `goodness_stim_clip.csv`. This will use the shorter stimuli lists, making testing a lot easier.
+
+**Another note:** If you want to run this on a Mac, change all of the double backslashes `\\` to one forward slash `/`.
+
+## Experiment Structure
+
+### Task 1: Audio-visual integration, 2-alternative forced choice
+
+This task has 3 blocks of 100 trials each. In each block, 50 trials have the `ba_base` sound and the other 50 have the `ba_redu` sound. Each block has only one type of stimulus (AV/face, PIX/pixelated face, or PL/point-light).
+
+Participants respond to each stimulus by pressing either `f` or `j` to indicate which sound they heard.
+
+Results files for this task are labeled `AVINt_2AFC_sub-XXXX.csv`.
+
+### Task 2: Audio-visual integration, goodness ratings
+
+In this task, participants see stimuli and are asked to respond how good of a /ba/ sound they heard (strong/medium/weak/none). Stimuli type (AV/PIX/PL) are presented randomly. There are 18 trials of each type (9 /ba/ and 9 /a/).
+
+Participants respond by pressing `1`, `2`, `3`, or `4` to indicate how good the /ba/ sound was.
+
+Results files for this task are labeled `AVInt_goodness_sub-XXXX.csv`.
 
 ## How to Run
 
@@ -24,11 +42,21 @@ This folder contains the point-light PsychoPy version of the AV Integration expe
 
 ![Click on the coder view](./coder.png)
 
-7. A dialog box should pop up. Enter the participant number under ID Number. 
+7. A dialog box should pop up (like the one below). Enter the participant number under ID Number. Use the Order box to counterbalance the three blocks.
+
+| Order Number 	|   Block 1   	|   Block 2   	|   Block 3   	|
+|:------------:	|:-----------:	|:-----------:	|:-----------:	|
+|       1      	|     Face    	| Point-light 	|  Pixelated  	|
+|       2      	|     Face    	|  Pixelated  	| Point-light 	|
+|       3      	| Point-light 	|     Face    	|  Pixelated  	|
+|       4      	| Point-light 	|  Pixelated  	|     Face    	|
+|       5      	|  Pixelated  	|     Face    	| Point-light 	|
+|       6      	|  Pixelated  	| Point-light 	|     Face    	|
+
+![Dialog box](./startup.png)
 
 8. From there the experiment should run pretty smoothly. Read through the instructions with the participant.
-
-Results files will be saved as `AVINT_PointLight_subXXXX.tsv` in the `results` directory. `gj.txt` contains the overall /b/ goodness judgment for each participant. It is updated as you run participants, so do your best not to move, edit, or delete it.
+9. If at any point you need to quit the experiment unexpectedly, press the `ESCAPE` key. This will stop after the next trial. The data you have collected so far will be saved as `early_quit_sub-XXXX.csv`. This only works during the actual trials, not during instruction screens.
 
 Contact me at [kayleigh.ryherd@uconn.edu](mailto:kayleigh.ryherd@uconn.edu) if you have any issues.
 
