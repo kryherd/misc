@@ -8,11 +8,13 @@ This folder contains the behavioral PsychoPy version of the AV Integration exper
 * `video` - contains video files
 * `stim` - contains stimulus files. If you want to change which videos appear, look at the files in here.
 
-**Note:** If you want to test the experiment, change the `"%s_stim.csv"` in line 189 to `"%s_stim_clip.csv"` and `goodness_stim.csv` to `goodness_stim_clip.csv`. This will use the shorter stimuli lists, making testing a lot easier.
+**Note:** If you want to test the experiment, change the `"%s_stim.csv"` in line 189 to `"%s_stim_clip.csv"` and `goodness_stim.csv` in line 286 to `goodness_stim_clip.csv`. This will use the shorter stimuli lists, making testing a lot easier.
 
 **Another note:** If you want to run this on a Mac, change all of the double backslashes `\\` to one forward slash `/`.
 
 ## Experiment Structure
+
+The experiment runs through tasks 1 and 2 continuously. You can take a break by pausing at the instruction screens.
 
 ### Task 1: Audio-visual integration, 2-alternative forced choice
 
