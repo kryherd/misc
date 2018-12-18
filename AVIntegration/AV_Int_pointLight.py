@@ -151,8 +151,6 @@ ba_base = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_base_audio.wa
 
 # header for data log
 data = np.hstack(("Subject", "Block", "Trial", "StimType", "StimCategory","Stimulus", "ACC","RESP","Sound","RT"))
-# dictionary for keypresses
-sounds = {"f": "A", "j": "BA"}
 
 
 ##### RUN EXPERIMENT
@@ -186,7 +184,7 @@ for i in range(1, 4):
         keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
     blockName = block[i]
     # load in trials and randomize them
-    TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\%s_stim.csv" % (blockName))
+    TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\%s_stim_clip.csv" % (blockName))
     totalTrials = len(TRIAL_LIST)
     TRIAL_LIST_RAND = TRIAL_LIST
     random.shuffle(TRIAL_LIST_RAND)
@@ -212,8 +210,13 @@ for i in range(1, 4):
         # if a key was pressed
         if KEY != None:
             RESP = KEY[0][0] # save key that was pressed
-            SOUND = sounds[RESP] # map key to sound
             RT = KEY[0][1] - t1 # calculate RT
+            if RESP == "f":
+                SOUND = 'A'
+            elif RESP == 'j':
+                SOUND = 'BA'
+            else:
+                SOUND = 'none'
         # if nothing was pressed
         elif KEY == None:
             RESP = 'none'
@@ -270,8 +273,6 @@ keypress_good = visual.TextStim(win,
 
 # set up data structure
 data = np.hstack(("Subject", "Trial", "StimType", "StimCategory","Stimulus","KEY", "Rating", "RT"))
-# set up ratings dictionary
-ratings = {"1": "Strong", "2": "Medium", "3": "Weak", "4": "None"}
 
 # start clock
 t0 = globalClock.getTime()
@@ -283,7 +284,7 @@ win.flip()
 keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
 
 # load in trials and randomize them
-TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\goodness_stim.csv")
+TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\goodness_stim_clip.csv")
 totalTrials = len(TRIAL_LIST)
 TRIAL_LIST_RAND = TRIAL_LIST
 random.shuffle(TRIAL_LIST_RAND)
@@ -308,8 +309,17 @@ for index in range(len(TRIAL_LIST_RAND)):
     # if a key was pressed
     if KEY != None:
         RESP = KEY[0][0] # save key that was pressed
-        RAT = ratings[RESP] # map key to goodness rating
         RT = KEY[0][1] - t1 # calculate RT
+        if RESP == '1':
+            RAT = 'Strong'
+        elif RESP == '2':
+            RAT = 'Medium'
+        elif RESP == '3':
+            RAT = 'Weak'
+        elif RESP == '4':
+            RAT = 'No B'
+        else:
+            RAT = 'No Rating'
     # if nothing was pressed
     elif KEY == None:
         RESP = 'none'
