@@ -8,10 +8,6 @@ This folder contains the behavioral PsychoPy version of the AV Integration exper
 * `video` - contains video files
 * `stim` - contains stimulus files. If you want to change which videos appear, look at the files in here.
 
-**Note:** If you want to test the experiment, change the `"%s_stim.csv"` in line 189 to `"%s_stim_clip.csv"` and `goodness_stim.csv` in line 286 to `goodness_stim_clip.csv`. This will use the shorter stimuli lists, making testing a lot easier.
-
-**Another note:** If you want to run this on a Mac, change all of the double backslashes `\\` to one forward slash `/`.
-
 ## Experiment Structure
 
 The experiment runs through tasks 1 and 2 continuously. You can take a break by pausing at the instruction screens.
@@ -28,7 +24,7 @@ Results files for this task are labeled `AVINt_2AFC_sub-XXXX.csv`.
 
 In this task, participants see stimuli and are asked to respond how good of a /ba/ sound they heard (strong/medium/weak/none). Stimuli type (AV/PIX/PL) are presented randomly. There are 18 trials of each type (9 /ba/ and 9 /a/).
 
-Participants respond by pressing `1`, `2`, `3`, or `4` to indicate how good the /ba/ sound was.
+Participants respond by pressing `1`, `2`, `3`, or `4` to indicate how good the /ba/ sound was. They have 10 seconds to respond. The next trial begins either after they make a response, or after 10 seconds have elapsed (whichever comes first).
 
 Results files for this task are labeled `AVInt_goodness_sub-XXXX.csv`.
 
@@ -44,7 +40,12 @@ Results files for this task are labeled `AVInt_goodness_sub-XXXX.csv`.
 
 ![Click on the coder view](./coder.png)
 
-7. A dialog box should pop up (like the one below). Enter the participant number under ID Number. Use the Order box to counterbalance the three blocks.
+7. A dialog box should pop up (like the one below). 
+
+![Dialog box](./startup.png)
+
+* ID Number: Participant Number
+* Order: Order of AV blocks (see below).
 
 | Order Number 	|   Block 1   	|   Block 2   	|   Block 3   	|
 |:------------:	|:-----------:	|:-----------:	|:-----------:	|
@@ -55,7 +56,11 @@ Results files for this task are labeled `AVInt_goodness_sub-XXXX.csv`.
 |       5      	|  Pixelated  	|     Face    	| Point-light 	|
 |       6      	|  Pixelated  	| Point-light 	|     Face    	|
 
-![Dialog box](./startup.png)
+* Computer Type: Select either PC or Mac, depending on which type of computer you are using.
+
+* Experiment Type: This allows you to run either the full experiment (Full) or a shortened version (Clipped) for testing it out. All experimental participants should be run using Full, but if you want to check something quickly or demo the experiment, you can use Clipped.
+
+
 
 8. From there the experiment should run pretty smoothly. Read through the instructions with the participant.
 9. If at any point you need to quit the experiment unexpectedly, press the `ESCAPE` key. This will stop after the next trial. The data you have collected so far will be saved as `early_quit_sub-XXXX.csv`. This only works during the actual trials, not during instruction screens.

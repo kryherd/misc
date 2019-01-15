@@ -13,25 +13,58 @@ PsychoPy experiment by Kayleigh Ryherd, last updated 12/11/2018
 # import psychopy modules
 import psychopy
 from psychopy import visual, core, event, sound, gui, data, logging
+from psychopy.sound import Sound
 import math
 import numpy as np 
 import random
 import pandas as pd
 
-#set parent directory
-parent_dir = ".\\"
+myDlg = gui.Dlg(title="AV Int")
+myDlg.addField('ID Number:')
+myDlg.addField('Order:')
+myDlg.addField('Computer Type:', choices=["PC", "Mac"])
+myDlg.addField('Experiment Type:', choices=["Full", "Clipped"])
+myDlg.show()#show dialog and wait for OK or Cancel
+if gui.OK:#then the user pressed OK
+    info = myDlg.data
+else: 
+    print 'user cancelled'
 
-#get some startup information from the user
-info = {'ID Number':'', 'Order':''}
-dlg = gui.DlgFromDict(info, title='AV Int')
-if not dlg.OK:
+subject = info[0]
+order = int(info[1])
+computer = info[2]
+exp_type = info[3]
+
+if order < 1 or order > 6:
+    errordlg = gui.Dlg(title = "Error")
+    errordlg.addText("Invalid order selected.")
+    errordlg.show()
+    core.quit()
+
+if computer == "PC":
+    slash = "\\"
+elif computer == "Mac":
+    slash = "/"
+else:
+    print("error in computer selection")
+    core.quit()
+
+#set parent directory
+parent_dir = "." + slash
+
+if exp_type == 'Full':
+    stim_length = "stim.csv"
+elif exp_type == 'Clipped':
+    stim_length = "stim_clip.csv"
+else:
+    print("error in exp type selection")
     core.quit()
 
 #### EXPERIMENT SETUP
 #set log prefixes
-prefix = 'sub-%s' % (info['ID Number'])
+prefix = 'sub-%s' % (subject)
 #logging data 
-errorLog=logging.LogFile(parent_dir + "results\\" + prefix + "_errorlog.log", level=logging.DATA, filemode='w')
+errorLog=logging.LogFile(parent_dir + "results" + slash + prefix + "_errorlog.log", level=logging.DATA, filemode='w')
 
 # function for getting key presses
 def get_keypress():
@@ -39,7 +72,7 @@ def get_keypress():
     # if escape was pressed...
     if keys and keys[0][0] == 'escape':
         # save the data in a modified format named "early_quit"
-        np.savetxt(parent_dir + "results\\" + "early_quit_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+        np.savetxt(parent_dir + "results" + slash + "early_quit_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
         # and exit
         win.close()
         core.quit()
@@ -64,17 +97,17 @@ win = visual.Window(size = [1280,800],
 ############################# 2AFC SECTION
 
 # select block
-if info['Order'] == '1':
+if order == 1:
     block = {1: "face", 2: "pl", 3: "pix"}
-elif info['Order'] == '2':
+elif order == 2:
     block = {1: "face", 2: "pix", 3: "pl"}
-elif info['Order'] == '3':
+elif order == 3:
     block = {1: "pl", 2: "face", 3: "pix"}
-elif info['Order'] == '4':
+elif order == 4:
     block = {1: "pl", 2: "pix", 3: "face"}
-elif info['Order'] == '5':
+elif order == 5:
     block = {1: "pix", 2: "face", 3: "pl"}
-elif info['Order'] == '6':
+elif order == 6:
     block = {1: "pix", 2: "pl", 3: "face"}
 else:
     print("\n-----------\nInvalid Order Selected. Please Try Again.\n-----------\n")
@@ -144,9 +177,12 @@ FinalThankYou_txt = visual.TextStim(win, text = "Thank you!",
                         font = "Arial",
                         autoLog=True)
 
+test = parent_dir + "audio" + slash + "ba_redu_audio.wav"
+
+print(test)
 # set up example sounds
-ba_redu = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_redu_audio.wav")
-ba_base = sound.backend_pygame.SoundPygame(parent_dir + "audio\\ba_base_audio.wav")
+ba_redu = sound.Sound(parent_dir + "audio" + slash + "ba_redu_audio.wav")
+ba_base = sound.Sound(parent_dir + "audio" + slash + "ba_base_audio.wav")
 
 
 # header for data log
@@ -184,7 +220,7 @@ for i in range(1, 4):
         keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
     blockName = block[i]
     # load in trials and randomize them
-    TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\%s_stim_clip.csv" % (blockName))
+    TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim" + slash + "%s_" % (blockName) + stim_length)
     totalTrials = len(TRIAL_LIST)
     TRIAL_LIST_RAND = TRIAL_LIST
     random.shuffle(TRIAL_LIST_RAND)
@@ -193,7 +229,7 @@ for i in range(1, 4):
     # run through trials
     for index in range(len(TRIAL_LIST_RAND)):
         # set up video stimulus
-        mov = visual.MovieStim3(win, parent_dir + 'video\\' + TRIAL_LIST_RAND[index]['Stimulus'],
+        mov = visual.MovieStim3(win, parent_dir + 'video' + slash + TRIAL_LIST_RAND[index]['Stimulus'],
                         size = (640, 480),
                         flipVert = False,
                         flipHoriz = False,
@@ -233,7 +269,7 @@ for i in range(1, 4):
             ACC = 0
         Trial = Trial + 1
         # add trial-level data to numpy array
-        data = np.vstack((data, np.hstack((info['ID Number'],
+        data = np.vstack((data, np.hstack((subject,
                 i,
                 Trial,
                 TRIAL_LIST_RAND[index]['StimType'],
@@ -245,7 +281,8 @@ for i in range(1, 4):
                 "%.3f" %RT))))
 
 # save results document
-np.savetxt(parent_dir + "results\\" + "AVInt_2AFC_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+np.savetxt(parent_dir + "results" + slash + "AVInt_2AFC_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+
 
 ############################# GOODNESS RATINGS SECTION
 
@@ -284,7 +321,7 @@ win.flip()
 keys = event.waitKeys(keyList=['space'], timeStamped=globalClock)
 
 # load in trials and randomize them
-TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim\\goodness_stim_clip.csv")
+TRIAL_LIST = psychopy.data.importConditions(fileName = parent_dir + "stim" + slash + "goodness_" + stim_length)
 totalTrials = len(TRIAL_LIST)
 TRIAL_LIST_RAND = TRIAL_LIST
 random.shuffle(TRIAL_LIST_RAND)
@@ -293,20 +330,25 @@ Trial = 0
 # run through trials
 for index in range(len(TRIAL_LIST_RAND)):
     # set up video stimulus
-    mov = visual.MovieStim3(win, parent_dir + 'video\\' + TRIAL_LIST_RAND[index]['Stimulus'],
-                    size = (640, 480),
-                    flipVert = False,
-                    flipHoriz = False,
-                    loop = False)
-    # timestamp right as movie is started
+    mov = visual.MovieStim3(win, parent_dir + 'video' + slash + TRIAL_LIST_RAND[index]['Stimulus'],
+                size = (640, 480),
+                flipVert = False,
+                flipHoriz = False,
+                loop = False)
     t1 = globalClock.getTime()
-    while mov.status != visual.FINISHED:
-        mov.draw()
-        keypress_good.draw()
-        win.flip()
-    core.wait(0.5)
-    KEY = get_keypress()
-    # if a key was pressed
+    # give participant 10 seconds to respond
+    while globalClock.getTime()-t1 <= 10:
+        # play movie stimulus
+        while mov.status != visual.FINISHED:
+            mov.draw()
+            keypress_good.draw()
+            win.flip()
+        # pause movie
+        mov.pause()
+        KEY = get_keypress()
+        # if a key was pressed, move on to next trial
+        if KEY != None:
+            break
     if KEY != None:
         RESP = KEY[0][0] # save key that was pressed
         RT = KEY[0][1] - t1 # calculate RT
@@ -324,10 +366,10 @@ for index in range(len(TRIAL_LIST_RAND)):
     elif KEY == None:
         RESP = 'none'
         RAT = 'none'
-        RT = 999    
+        RT = 999
     Trial = Trial + 1
     # add trial-level data
-    data = np.vstack((data, np.hstack((info['ID Number'],
+    data = np.vstack((data, np.hstack((subject,
             Trial,
             TRIAL_LIST_RAND[index]['StimType'],
             TRIAL_LIST_RAND[index]['StimCategory'],
@@ -336,8 +378,9 @@ for index in range(len(TRIAL_LIST_RAND)):
             RAT,
             "%.3f" %RT))))
 
+
 # save results document
-np.savetxt(parent_dir + "results\\" + "AVInt_goodness_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
+np.savetxt(parent_dir + "results" + slash + "AVInt_goodness_" + prefix + ".tsv", data, fmt='%s', delimiter='\t', newline='\n', header='', footer='', comments='# ')
 
 #display a Thank You message
 FinalThankYou_txt.draw()

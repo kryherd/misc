@@ -1,0 +1,10 @@
+import psychopy
+from psychopy import visual, core, event, sound, gui, data, logging
+from psychopy.sound import Sound
+import math
+import numpy as np 
+import random
+import pandas as pd
+
+ba_redu = sound.Sound("./audio/ba_redu_audio.wav")
+ba_redu.play()
