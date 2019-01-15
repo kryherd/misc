@@ -56,6 +56,10 @@ Results files for this task are labeled `AVInt_goodness_sub-XXXX.csv`.
 |       5      	|  Pixelated  	|     Face    	| Point-light 	|
 |       6      	|  Pixelated  	| Point-light 	|     Face    	|
 
+If you pick an order that is not 1-6, you'll see the error below and the experiment will close.
+
+![Dialog box](./order_error.png)
+
 * Computer Type: Select either PC or Mac, depending on which type of computer you are using.
 
 * Experiment Type: This allows you to run either the full experiment (Full) or a shortened version (Clipped) for testing it out. All experimental participants should be run using Full, but if you want to check something quickly or demo the experiment, you can use Clipped.
