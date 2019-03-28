@@ -159,7 +159,7 @@ diff_txt = visual.TextStim(win, text = "Let's try it again with some different v
 
 keypress = visual.TextStim(win,
                             text = "F - A             J - BA",
-                            pos = [0.0,-300],
+                            pos = [0.0,-400],
                             color = "white", 
                             height = 32, 
                             alignHoriz='center', 
@@ -230,7 +230,7 @@ for i in range(1, 4):
     for index in range(len(TRIAL_LIST_RAND)):
         # set up video stimulus
         mov = visual.MovieStim3(win, parent_dir + 'video' + slash + TRIAL_LIST_RAND[index]['Stimulus'],
-                        size = (640, 480),
+                        size = (TRIAL_LIST_RAND[index]['VidWidth'], TRIAL_LIST_RAND[index]['VidHeight']),
                         flipVert = False,
                         flipHoriz = False,
                         loop = False)
@@ -299,7 +299,7 @@ goodness_txt = visual.TextStim(win, text = "Now you will hear and see many sound
 
 keypress_good = visual.TextStim(win,
                             text = "1 - Strong     2 - Medium    3 - Weak    4 - None",
-                            pos = [0.0,-300],
+                            pos = [0.0,-400],
                             color = "white", 
                             height = 32, 
                             alignHoriz='center', 
@@ -331,7 +331,7 @@ Trial = 0
 for index in range(len(TRIAL_LIST_RAND)):
     # set up video stimulus
     mov = visual.MovieStim3(win, parent_dir + 'video' + slash + TRIAL_LIST_RAND[index]['Stimulus'],
-                size = (640, 480),
+                size = (TRIAL_LIST_RAND[index]['VidWidth'], TRIAL_LIST_RAND[index]['VidHeight']),
                 flipVert = False,
                 flipHoriz = False,
                 loop = False)
