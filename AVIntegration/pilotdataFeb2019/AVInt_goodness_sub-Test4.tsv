@@ -1,0 +1,55 @@
+Subject	Trial	StimType	StimCategory	Stimulus	KEY	Rating	RT
+Test4	1	oddball	PIX	ba_redu_pix.avi	2	Medium	2.755
+Test4	2	standard	PIX	ba_base_pix.avi	2	Medium	2.457
+Test4	3	oddball	AV	ba_redu_face.avi	2	Medium	4.725
+Test4	4	oddball	PIX	ba_redu_pix.avi	2	Medium	3.860
+Test4	5	standard	PL	ba_base_pl.avi	2	Medium	2.159
+Test4	6	oddball	AV	ba_redu_face.avi	2	Medium	2.486
+Test4	7	oddball	PL	ba_redu_pl.avi	2	Medium	2.002
+Test4	8	standard	PIX	ba_base_pix.avi	2	Medium	2.181
+Test4	9	oddball	PL	ba_redu_pl.avi	2	Medium	2.473
+Test4	10	oddball	PL	ba_redu_pl.avi	2	Medium	1.722
+Test4	11	oddball	PL	ba_redu_pl.avi	2	Medium	2.174
+Test4	12	oddball	AV	ba_redu_face.avi	2	Medium	1.587
+Test4	13	standard	PL	ba_base_pl.avi	2	Medium	1.690
+Test4	14	standard	PL	ba_base_pl.avi	2	Medium	1.490
+Test4	15	oddball	PIX	ba_redu_pix.avi	4	No B	3.169
+Test4	16	standard	PIX	ba_base_pix.avi	2	Medium	1.735
+Test4	17	standard	AV	ba_base_face.avi	2	Medium	1.615
+Test4	18	oddball	PL	ba_redu_pl.avi	2	Medium	1.683
+Test4	19	standard	AV	ba_base_face.avi	2	Medium	1.683
+Test4	20	standard	PL	ba_base_pl.avi	2	Medium	1.499
+Test4	21	oddball	PL	ba_redu_pl.avi	2	Medium	1.862
+Test4	22	oddball	AV	ba_redu_face.avi	2	Medium	1.785
+Test4	23	oddball	AV	ba_redu_face.avi	2	Medium	1.497
+Test4	24	standard	AV	ba_base_face.avi	2	Medium	1.494
+Test4	25	standard	PL	ba_base_pl.avi	2	Medium	1.465
+Test4	26	oddball	AV	ba_redu_face.avi	2	Medium	1.354
+Test4	27	oddball	PIX	ba_redu_pix.avi	2	Medium	1.474
+Test4	28	oddball	AV	ba_redu_face.avi	2	Medium	1.947
+Test4	29	standard	AV	ba_base_face.avi	2	Medium	1.993
+Test4	30	oddball	PL	ba_redu_pl.avi	2	Medium	1.498
+Test4	31	oddball	AV	ba_redu_face.avi	2	Medium	1.429
+Test4	32	standard	PL	ba_base_pl.avi	2	Medium	1.436
+Test4	33	oddball	AV	ba_redu_face.avi	2	Medium	1.388
+Test4	34	oddball	PIX	ba_redu_pix.avi	2	Medium	1.478
+Test4	35	oddball	PIX	ba_redu_pix.avi	2	Medium	1.941
+Test4	36	standard	AV	ba_base_face.avi	2	Medium	1.230
+Test4	37	standard	AV	ba_base_face.avi	2	Medium	1.296
+Test4	38	standard	PIX	ba_base_pix.avi	2	Medium	1.453
+Test4	39	oddball	PIX	ba_redu_pix.avi	2	Medium	1.304
+Test4	40	oddball	PL	ba_redu_pl.avi	4	No B	2.121
+Test4	41	standard	PIX	ba_base_pix.avi	2	Medium	1.707
+Test4	42	oddball	PIX	ba_redu_pix.avi	4	No B	2.189
+Test4	43	standard	PIX	ba_base_pix.avi	2	Medium	1.896
+Test4	44	standard	PL	ba_base_pl.avi	2	Medium	1.681
+Test4	45	standard	PL	ba_base_pl.avi	2	Medium	1.435
+Test4	46	standard	PIX	ba_base_pix.avi	2	Medium	1.514
+Test4	47	standard	AV	ba_base_face.avi	2	Medium	1.331
+Test4	48	standard	PIX	ba_base_pix.avi	2	Medium	1.406
+Test4	49	standard	AV	ba_base_face.avi	2	Medium	1.269
+Test4	50	standard	PL	ba_base_pl.avi	2	Medium	1.870
+Test4	51	oddball	PIX	ba_redu_pix.avi	4	No B	1.885
+Test4	52	standard	PIX	ba_base_pix.avi	2	Medium	1.605
+Test4	53	standard	AV	ba_base_face.avi	2	Medium	1.532
+Test4	54	oddball	PL	ba_redu_pl.avi	4	No B	2.406

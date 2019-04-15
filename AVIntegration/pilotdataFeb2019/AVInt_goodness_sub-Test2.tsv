@@ -1,0 +1,55 @@
+Subject	Trial	StimType	StimCategory	Stimulus	KEY	Rating	RT
+Test2	1	oddball	PIX	ba_redu_pix.avi	2	Medium	2.359
+Test2	2	standard	PIX	ba_base_pix.avi	1	Strong	2.495
+Test2	3	oddball	AV	ba_redu_face.avi	2	Medium	2.980
+Test2	4	oddball	PIX	ba_redu_pix.avi	4	No B	2.260
+Test2	5	standard	PIX	ba_base_pix.avi	2	Medium	2.891
+Test2	6	standard	AV	ba_base_face.avi	2	Medium	1.995
+Test2	7	oddball	AV	ba_redu_face.avi	4	No B	2.156
+Test2	8	oddball	PIX	ba_redu_pix.avi	4	No B	1.851
+Test2	9	oddball	PL	ba_redu_pl.avi	4	No B	1.868
+Test2	10	standard	AV	ba_base_face.avi	2	Medium	2.169
+Test2	11	standard	PL	ba_base_pl.avi	1	Strong	1.742
+Test2	12	standard	PIX	ba_base_pix.avi	1	Strong	2.037
+Test2	13	oddball	AV	ba_redu_face.avi	4	No B	1.794
+Test2	14	oddball	PIX	ba_redu_pix.avi	4	No B	2.221
+Test2	15	standard	PIX	ba_base_pix.avi	2	Medium	2.196
+Test2	16	standard	PL	ba_base_pl.avi	3	Weak	1.956
+Test2	17	oddball	AV	ba_redu_face.avi	4	No B	1.963
+Test2	18	standard	AV	ba_base_face.avi	1	Strong	2.473
+Test2	19	oddball	PIX	ba_redu_pix.avi	4	No B	2.337
+Test2	20	standard	PIX	ba_base_pix.avi	2	Medium	2.162
+Test2	21	standard	AV	ba_base_face.avi	2	Medium	2.747
+Test2	22	standard	PL	ba_base_pl.avi	1	Strong	2.062
+Test2	23	standard	AV	ba_base_face.avi	2	Medium	1.668
+Test2	24	standard	AV	ba_base_face.avi	2	Medium	1.893
+Test2	25	standard	PL	ba_base_pl.avi	1	Strong	1.850
+Test2	26	oddball	PL	ba_redu_pl.avi	4	No B	1.931
+Test2	27	standard	PL	ba_base_pl.avi	2	Medium	2.055
+Test2	28	oddball	PIX	ba_redu_pix.avi	4	No B	2.020
+Test2	29	oddball	PL	ba_redu_pl.avi	4	No B	1.715
+Test2	30	oddball	AV	ba_redu_face.avi	3	Weak	1.891
+Test2	31	standard	AV	ba_base_face.avi	1	Strong	2.083
+Test2	32	oddball	PL	ba_redu_pl.avi	4	No B	1.960
+Test2	33	oddball	PL	ba_redu_pl.avi	4	No B	1.631
+Test2	34	standard	PIX	ba_base_pix.avi	2	Medium	2.146
+Test2	35	oddball	PIX	ba_redu_pix.avi	4	No B	2.168
+Test2	36	standard	AV	ba_base_face.avi	1	Strong	1.724
+Test2	37	oddball	AV	ba_redu_face.avi	4	No B	1.945
+Test2	38	oddball	PIX	ba_redu_pix.avi	4	No B	2.205
+Test2	39	oddball	AV	ba_redu_face.avi	4	No B	1.870
+Test2	40	oddball	PL	ba_redu_pl.avi	4	No B	1.575
+Test2	41	oddball	PL	ba_redu_pl.avi	2	Medium	1.696
+Test2	42	standard	PIX	ba_base_pix.avi	4	No B	1.810
+Test2	43	standard	AV	ba_base_face.avi	2	Medium	1.760
+Test2	44	standard	PL	ba_base_pl.avi	2	Medium	1.620
+Test2	45	oddball	AV	ba_redu_face.avi	2	Medium	1.697
+Test2	46	oddball	PIX	ba_redu_pix.avi	2	Medium	1.739
+Test2	47	standard	PL	ba_base_pl.avi	1	Strong	1.753
+Test2	48	oddball	AV	ba_redu_face.avi	2	Medium	1.836
+Test2	49	standard	PIX	ba_base_pix.avi	3	Weak	1.547
+Test2	50	oddball	PL	ba_redu_pl.avi	4	No B	1.527
+Test2	51	oddball	PL	ba_redu_pl.avi	4	No B	1.460
+Test2	52	standard	PIX	ba_base_pix.avi	2	Medium	1.882
+Test2	53	standard	PL	ba_base_pl.avi	1	Strong	1.866
+Test2	54	standard	PL	ba_base_pl.avi	1	Strong	1.632

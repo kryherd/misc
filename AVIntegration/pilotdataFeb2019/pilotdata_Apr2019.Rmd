@@ -1,0 +1,40 @@
+---
+title: "AV Pilot Data - New Point Light Stimulus"
+author: "Kayleigh Ryherd"
+date: "4/15/2019"
+output: html_document
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+setwd("~/misc/AVIntegration/pilotdataFeb2019")
+av <- read.csv("AV_newPL.csv")
+good <- read.csv("Goodness_newPL.csv")
+
+
+av_summary <- av %>% 
+  filter(RT != 999) %>%
+  group_by(StimType, StimCategory) %>%
+  summarise(acc = mean(ACC),
+            RT = mean(RT))
+
+ggplot(av_summary, aes(StimType, acc)) + geom_bar(stat = "identity") + facet_grid(.~StimCategory) + theme_bw(15)
+
+ggplot(av_summary, aes(StimType, RT)) + geom_bar(stat = "identity") + facet_grid(.~StimCategory) + theme_bw(15)
+
+
+good_summary <- good %>%
+  filter(RT != 999) %>%
+  group_by(StimType, StimCategory, Rating) %>%
+  count() %>%
+  mutate(pct = n/45)
+
+good_summary %>%
+  ungroup() %>%
+  mutate(Rating = fct_relevel(Rating, "No B", "Weak", "Medium", "Strong")) %>%
+  ggplot(., aes(StimType, pct, fill = Rating)) + geom_bar(stat = "identity") + facet_grid(.~StimCategory) +
+  theme_bw(15) + scale_fill_brewer(palette = "Blues")
+```
+
+
+
