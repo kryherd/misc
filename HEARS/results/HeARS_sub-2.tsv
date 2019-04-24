@@ -1,0 +1,17 @@
+Subject	BlockNum	BlockType	Trial	StimType	Sound	CorImg	RespImg	ACC	RT
+2	1	silent	1	standard	ba_base_audio.wav	down	up	0	0.507
+2	1	silent	2	oddball	ba_redu_audio.wav	down	left	0	0.262
+2	1	silent	3	standard	ba_base_audio.wav	right	right	1	0.169
+2	1	silent	4	oddball	ba_redu_audio.wav	right	down	0	0.212
+2	1	silent	5	oddball	ba_redu_audio.wav	up	up	1	0.302
+2	1	silent	6	standard	ba_base_audio.wav	left	right	0	0.207
+2	1	silent	7	oddball	ba_redu_audio.wav	down	left	0	0.201
+2	1	silent	8	oddball	ba_redu_audio.wav	up	up	1	0.365
+2	2	noise	1	standard	ba_base_audio.wav	up	left	0	0.254
+2	2	noise	2	oddball	ba_redu_audio.wav	up	down	0	0.194
+2	2	noise	3	oddball	ba_redu_audio.wav	left	right	0	0.184
+2	2	noise	4	oddball	ba_redu_audio.wav	left	left	1	0.179
+2	2	noise	5	standard	ba_base_audio.wav	right	up	0	0.160
+2	2	noise	6	oddball	ba_redu_audio.wav	up	down	0	0.234
+2	2	noise	7	oddball	ba_redu_audio.wav	up	left	0	0.202
+2	2	noise	8	standard	ba_base_audio.wav	up	right	0	0.227
