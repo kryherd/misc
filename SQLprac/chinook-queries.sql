@@ -47,3 +47,18 @@ The resultant table should include the Sales Agent's full name.
 
 SELECT e.FirstName, e.LastName, i.InvoiceId FROM employees e JOIN customers c ON e.EmployeeID = c.SupportRepId JOIN invoices i ON c.CustomerID = i.CustomerID;
 
+--#8
+/*
+Provide a query that shows the Invoice Total, Customer name, Country and Sale Agent name for all invoices and customers.
+*/
+
+SELECT invoices.Total, customers.FirstName, customers.LastName, customers.Country, employees.FirstName, employees.LastName FROM invoices JOIN customers ON invoices.CustomerID = customers.CustomerID JOIN employees ON customers.SupportRepID = employees.EmployeeId;
+
+--#9
+/*
+How many Invoices were there in 2009 and 2011? What are the respective total sales for each of those years?
+*/
+
+ SELECT SUBSTR(InvoiceDate,1,4), COUNT(InvoiceDate), SUM(Total) FROM invoices WHERE SUBSTR(InvoiceDate,1,4) == "2009" OR SUBSTR(InvoiceDate,1,4) == "2011" GROUP BY SUBSTR(InvoiceDate,1,4);
+ 
+ 
